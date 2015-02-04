@@ -2,8 +2,8 @@
 // @name       Social Media Timer
 // @namespace  me.mitchgordon.timer
 // @version    0.1
-// @description Makes sure you don't waste your life on facebook. After a certain number of minutes, this app will kick you off a website for a certain number of minutes. 
-//		The default is 5 and 55 minutes. Place more matches in the line below to track different websites.
+// @description Makes sure you don't waste your life on facebook. This app will kick you off Facebook for 30 minutes after you've been browsing for more than 5. 
+// 		Place more matches in the line below to track different websites.
 // @match      https://*.facebook.com/*
 // @copyright  2012+, You
 // ==/UserScript==
@@ -13,7 +13,7 @@ if (window.top != window.self)
     return;
 
 var onTime = 5 * 60 ; //in seconds
-var offTime = 55 * 60;
+var offTime = 30 * 60;
 
 // Have we written a message to the page yet?
 var written = false;
