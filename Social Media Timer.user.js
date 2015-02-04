@@ -23,7 +23,7 @@ var intervalId;
 
 // And just in case, we'll put everything in an event so it only gets called once per window load.
 window.addEventListener("load", function() {
-    console.log("running.");
+    //console.log("running.");
      
     //Check if we've ever run
     //If we haven't, set the "allowed" switch that determines whether or not browsing is allowed.
@@ -42,7 +42,7 @@ window.addEventListener("load", function() {
 });
 
 window.addEventListener("unload", function() {
-    console.log ("Saving browsing time.");
+    //console.log ("Saving browsing time.");
     
  	// If we still have browsing time left, store it in a cookie to be loaded
     // next time the page is opened.
@@ -51,17 +51,17 @@ window.addEventListener("unload", function() {
 
 // Decrements the timer and checks if it's time to switch modes.
 function decrementAndCheck() {
-    // Try to grab the allowed cookie  
+    // Try to grab the allowed cookie 
+	// We should definitely do this each second so that all tabs with the site open will be disabled at the same time.
 	var allowed = getCookie("allowed");
     
-    if (timeLeft != null)
-    	console.log(allowed + " " + timeLeft);
+    //console.log(allowed + " " + timeLeft);
     
 	// If we're tracking the amount of time the user is browsing, only decrement the in memory counter
     if (allowed == "true") { 
         // If the time left is less than zero, then browsing time is over.
         if (timeLeft <= 0) {
-            console.log("Off time starting.");
+            //console.log("Off time starting.");
             setCookie("allowed", "false", 360, "d");
             // Reset the timer for off time using expiration.
             setCookie("offTimer", new Date().toLocaleTimeString(), offTime, "s");
@@ -77,7 +77,7 @@ function decrementAndCheck() {
         var offTimer = getCookie("offTimer");
         // If timer expired, then off time is over. Reset the timer for on time.
         if ( offTimer === null ) {
-            console.log("On time starting.");
+            //console.log("On time starting.");
         	setCookie("allowed", "true", 360, "d");
             
             // Reset the on timer for the next time we're allowed to browse.
