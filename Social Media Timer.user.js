@@ -3,7 +3,7 @@
 // @namespace  me.mitchgordon.timer
 // @version    0.1
 // @description Makes sure you don't waste your life on facebook. After a certain number of minutes, this app will kick you off a website for a certain number of minutes. 
-//				The default is 5 and 55 minutes. Place more matches in the line below to track different websites.
+//		The default is 5 and 55 minutes. Place more matches in the line below to track different websites.
 // @match      https://*.facebook.com/*
 // @copyright  2012+, You
 // ==/UserScript==
