@@ -12,7 +12,7 @@
 if (window.top != window.self)
     return;
 
-var onTime = 5 * 60 ; //in seconds
+var onTime = 5 * 60; //in seconds
 var offTime = 30 * 60;
 
 // Have we written a message to the page yet?
@@ -95,6 +95,13 @@ function decrementAndCheck() {
         // Otherwise, overwrite the page and tell the user when facebook will come back on.
         else if (!written) {
             document.write("\rTime's up. This site has been off since " + offTimer + " and will be off for " + Math.round(offTime / 60) + " minutes. Go be productive.");
+            document.write('<br><button id="reset">This is wrong! Give me more time!</button>');
+            
+            document.getElementById('reset').addEventListener('click', function () {
+                setCookie("offTimer", "this is expired", -1, "d");
+                location.reload();
+            });
+            
             written = true;
         }
     }
@@ -112,8 +119,9 @@ function setCookie(c_name,value,exp, flag)
     if (flag == "s") {
         exdate.setTime(exdate.getTime() + exp * 1000);    
     }
-    
-    var c_value=escape(value) + ((exp == null) ? "" : "; expires="+exdate.toUTCString());
+   
+    // Always use the root path for the domain
+    var c_value=escape(value) + ((exp == null) ? "" : "; expires="+exdate.toUTCString()) + "; path=/";
 	document.cookie=c_name + "=" + c_value;
 }
 
@@ -129,6 +137,4 @@ function getCookie(c_name){
     }
     return null;
 }
-
-
 
