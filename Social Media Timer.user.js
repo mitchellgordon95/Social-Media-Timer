@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Social Media Timer
 // @namespace  me.mitchgordon.timer
-// @version    0.2
+// @version    0.3
 // @description Makes sure you don't waste your life on facebook. This app will kick you off Facebook for 30 minutes after you've been browsing for more than 5. 
 // 		Place more matches in the line below to track different websites.
 // @match      https://*.facebook.com/*
@@ -35,6 +35,12 @@ var written = false;
 
 // The id of the timing event we're going to schedule.
 var intervalId;
+
+// This stuff handles when the main thread quits without cleaning up after itself
+// How many times have we gotten the counter and seen the same number as before?
+var sameSecondsCount = 0;
+// What was the last value we saw?
+var lastSeconds = 0;
 
 // And just in case, we'll put everything in an event so it only gets called once per window load.
 window.addEventListener("load", function() {
@@ -146,6 +152,20 @@ function everySecond() {
             // Save the state object            
             localStorage.setItem(stateId, JSON.stringify(currentState));
         }
+        else if (currentState.allowed) {
+            // Do the check to see if the main thread bailed without cleaning up
+            sameSecondsCount = (currentState.secondsLeft == lastSeconds) ? sameSecondsCount + 1 : 0;
+            lastSeconds = currentState.secondsLeft;
+            
+            // If the timer hasn't changed in 5 seconds, take over as main thread
+            if (sameSecondsCount > 5) {
+                mainThread = true;
+                currentState.timing = true;
+                // Save the state object
+                localStorage.setItem(stateId, JSON.stringify(currentState));   
+            }
+        }
+        
 
         log("Current state: " + JSON.stringify(currentState));
     }
