@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Social Media Timer
 // @namespace  me.mitchgordon.timer
-// @version    0.3
+// @version    0.3.1
 // @description Makes sure you don't waste your life on facebook. This app will kick you off Facebook for 30 minutes after you've been browsing for more than 5. 
 // 		Place more matches in the line below to track different websites.
 // @match      https://*.facebook.com/*
@@ -104,10 +104,10 @@ function offTimeHandler(currentState) {
     }
     // Otherwise, overwrite the page and tell the user when facebook will come back on.
     else if (!written) {
-        document.write("<div id='status'>\rTime's up. This site will be off until " + currentState.returnTime.toTimeString() + ". Go be productive.</div>");
-        document.write('<br><button id="reset">This is wrong! Give me more time!</button>');
+        // This has to be one line for some reason. If you call document.write() twice back to back like we did before, you get an infinite recursion/stack overflow.
+        document.write("<div>Time's up. This site will be off until " + currentState.returnTime.toTimeString() + ". Go be productive.</div><button id='social_media_timer_reset'>This is wrong! Give me more time!</button>");
 
-        document.getElementById('reset').addEventListener('click', function () {
+        document.getElementById('social_media_timer_reset').addEventListener('click', function () {
             localStorage.setItem(stateId, JSON.stringify({allowed:true, timing: false, secondsLeft: onTime}));
             location.reload();
         });
